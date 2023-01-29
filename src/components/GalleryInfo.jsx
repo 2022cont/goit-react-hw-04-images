@@ -40,7 +40,7 @@ export default function GalleryInfo({ imgSearch, onSelectImg }) {
         setPage(1);
         setImages(null);
 
-        API.galleryFetchAPI(imgSearch, page)
+        API.galleryFetchAPI(imgSearch)
             .then(data => {
                 if (data.hits.length === 0) {
                     setError('Sorry, there are no images matching your search query. Please try again.');
