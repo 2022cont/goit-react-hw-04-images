@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { createPortal } from 'react-dom';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 
 import css from './Modal.module.css';
 
@@ -26,8 +26,8 @@ export default function Modal({ onClose, children }) {
 
 };
 
-Modal.propTypes = {
-    onClose: PropTypes.func,
-}
+// Modal.propTypes = {
+//     onClose: PropTypes.func,
+// }
 
 
