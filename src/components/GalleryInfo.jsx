@@ -20,11 +20,12 @@ const Status = {
 export default function GalleryInfo({ imgSearch, onSelectImg }) {
 
     const [firstRender, setFirstRender] = useState(true);
-
     const [images, setImages] = useState(null);
+
     const [error, setError] = useState('');
     const [status, setStatus] = useState(Status.IDLE);
     const [page, setPage] = useState(1);
+    const [totalHit, setTotalHit] = useState(0);
 
     useEffect(() => {
         if (!imgSearch) {
@@ -48,6 +49,7 @@ export default function GalleryInfo({ imgSearch, onSelectImg }) {
                     return;
                 } else {
                     setImages(data.hits);
+                    setTotalHit(data.totalHits);
                     setStatus(Status.RESOLVED);
                 }
             })
@@ -62,12 +64,15 @@ export default function GalleryInfo({ imgSearch, onSelectImg }) {
 
     const loadMore = () => {
         setPage(prevState => prevState + 1);
+
         addGallery();
     };
 
     const addGallery = () => {
+
         API.galleryFetchAPI(imgSearch, page)
-            .then(data => setImages([...images, ...data.hits]))
+            .then(data => setImages([...images, ...data.hits]));
+
     }
 
     if (status === 'pending') {
@@ -83,8 +88,12 @@ export default function GalleryInfo({ imgSearch, onSelectImg }) {
         return (
             <>
                 <ImageGallery gallery={images} onSelectImg={onSelectImg} />
-                <button type='button' className={css.button} onClick={loadMore} >
-                    Load more</button>
+                {totalHit !== images.length && (
+                    <button type='button' className={css.button} onClick={loadMore} >
+                        Load more</button>
+                )}
+
+
             </>
 
         )
